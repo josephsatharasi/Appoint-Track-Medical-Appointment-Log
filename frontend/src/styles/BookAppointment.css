@@ -1,0 +1,115 @@
+.appointment-container {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  overflow: hidden; /* Prevent content from overflowing */
+}
+
+h2 {
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.appointment-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Styling for form fields */
+.appointment-form input,
+.appointment-form select,
+.appointment-form textarea {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  width: 100%; /* Ensure fields take up full width */
+  box-sizing: border-box; /* Make sure padding is included in width calculation */
+}
+
+.appointment-form select {
+  cursor: pointer;
+  max-width: 100%; /* Ensure it doesn't overflow */
+}
+
+/* Submit button styling */
+.submit-btn {
+  background: #6b5bfc;
+  color: white;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+  transition: background 0.3s;
+}
+
+.submit-btn:hover {
+  background: #4a3cbf;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+  .appointment-container {
+    max-width: 90%; /* Use 90% width on smaller screens */
+    margin: 20px auto; /* Reduce the margin for small devices */
+    padding: 15px;
+    overflow-x: auto; /* Allow horizontal scrolling if needed */
+  }
+
+  .appointment-form {
+    gap: 10px; /* Reduced gap between form elements */
+  }
+
+  /* Ensure input fields, select, and textarea take full width */
+  .appointment-form input,
+  .appointment-form select,
+  .appointment-form textarea {
+    font-size: 14px; /* Slightly smaller font for mobile devices */
+    max-width: 100%; /* Ensure form fields don't overflow */
+  }
+
+  /* Adjust submit button */
+  .submit-btn {
+    font-size: 14px; /* Make button text slightly smaller */
+    padding: 12px; /* Larger padding for better touch interaction */
+  }
+
+  /* Ensure time slots do not overflow */
+  .appointment-form select {
+    font-size: 14px; /* Reduce font size for better mobile view */
+    padding: 8px; /* Reduce padding to avoid overflow */
+  }
+}
+
+@media (max-width: 480px) {
+  .appointment-container {
+    max-width: 100%; /* Use full width for very small screens */
+    margin: 10px; /* Reduce margin further */
+    padding: 10px; /* Reduce padding */
+  }
+
+  .appointment-form {
+    gap: 8px; /* Even tighter gap for small devices */
+  }
+
+  /* Ensure input fields and selects are fully responsive */
+  .appointment-form input,
+  .appointment-form select,
+  .appointment-form textarea {
+    font-size: 12px; /* Even smaller font size for ultra-small screens */
+    max-width: 100%; /* Ensure no overflow */
+    padding: 8px; /* Reduced padding for smaller screens */
+  }
+
+  /* Adjust submit button for mobile */
+  .submit-btn {
+    font-size: 14px; /* Adjust font size for mobile */
+    padding: 12px 0; /* Adjust padding for better touch experience */
+  }
+}

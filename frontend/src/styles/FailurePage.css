@@ -1,0 +1,58 @@
+.failure-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; 
+    background: #fff5f5; /* Light red background */
+    text-align: center;
+}
+
+.failure-content {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+.crossmark {
+    font-size: 80px;
+    color: #e74c3c; /* Red cross */
+    margin-bottom: 20px;
+}
+
+h2 {
+    color: #2d3436;
+    margin-bottom: 10px;
+}
+
+p {
+    font-size: 16px;
+    color: #636e72;
+}
+
+button {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+button:hover {
+    background: #c0392b;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}

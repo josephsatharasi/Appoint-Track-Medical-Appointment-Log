@@ -1,0 +1,91 @@
+/* NoAppointmentsWarning.css */
+.warning-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;  /* Ensure it fills the viewport */
+    overflow: hidden;  /* Prevent overflow */
+    background: linear-gradient(120deg, #ff8a65, #ff7043);  /* New warm orange tones */
+    animation: fadeInBackground 2s ease-in-out;
+    position: absolute; /* Ensure it fills the full screen */
+    width: 100%; /* Ensure it takes full width */
+    top: 0;
+    left: 0;
+}
+
+.warning-message {
+    text-align: center;
+    padding: 20px 30px;  /* Slightly larger padding */
+    background: rgba(255, 255, 255, 0.9);  /* Transparent white for better visibility */
+    border-radius: 10px;  /* Rounded corners */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);  /* Soft shadow */
+    animation: slideUp 1s ease-out;
+    max-width: 90%; /* Ensure the message doesn't overflow */
+    width: 400px; /* Set a maximum width */
+}
+
+.warning-message h1 {
+    font-size: 2rem;  /* Increased font size */
+    margin-bottom: 10px;
+    color: #ff5722;  /* Orange color */
+}
+
+.warning-message p {
+    font-size: 1.2rem;  /* Increased font size */
+    color: #2196f3;  /* Blue color */
+}
+
+/* Keyframe animation for background fade */
+@keyframes fadeInBackground {
+    0% {
+        opacity: 0;
+        transform: scale(1.1);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Keyframe animation for sliding up the message */
+@keyframes slideUp {
+    0% {
+        transform: translateY(40px);  /* Increased start Y position */
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+    .warning-message {
+        width: 90%; /* Reduce width on smaller screens */
+        padding: 15px 20px; /* Smaller padding for mobile */
+    }
+
+    .warning-message h1 {
+        font-size: 1.5rem; /* Adjust font size for small screens */
+    }
+
+    .warning-message p {
+        font-size: 1rem; /* Adjust paragraph font size for small screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .warning-message {
+        width: 95%; /* Ensure it's even smaller on very small screens */
+        padding: 10px 15px; /* Reduce padding further */
+    }
+
+    .warning-message h1 {
+        font-size: 1.2rem; /* Even smaller font size */
+    }
+
+    .warning-message p {
+        font-size: 0.9rem; /* Smaller paragraph text */
+    }
+}
