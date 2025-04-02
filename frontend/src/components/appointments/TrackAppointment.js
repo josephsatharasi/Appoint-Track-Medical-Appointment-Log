@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { fetchAppointments, deleteAppointment } from "../../api/appointmentApi";
 import AppointmentCard from "./AppointmentCard";
 import AppointmentModal from "./AppointmentModal";
-import NoAppointmentsWarning from "./NoAppointmentsWarning"; // Import the new component
+import NoAppointmentsWarning from "./NoAppointmentsWarning"; 
 import "../../styles/TrackAppointment.css";
 
 const TrackAppointment = () => {
