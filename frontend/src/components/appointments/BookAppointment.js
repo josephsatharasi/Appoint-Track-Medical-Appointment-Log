@@ -74,7 +74,7 @@ const BookAppointment = () => {
         return;
       }
 
-      const response = await fetch("http://localhost:5000/api/appointments/check-conflict", {
+      const response = await fetch("https://backend-ip1x.onrender.com/api/appointments/check-conflict", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -91,7 +91,7 @@ const BookAppointment = () => {
 
       if (response.ok) {
         // No conflict, proceed with booking
-        const bookResponse = await fetch("http://localhost:5000/api/appointments", {
+        const bookResponse = await fetch("https://backend-ip1x.onrender.com/api/appointments", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
