@@ -8,14 +8,14 @@ require("dotenv").config();
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: process.env.EMAIL_USER,  // Your Gmail email
-    pass: process.env.EMAIL_PASS,  // Your Google App Password
+    user: process.env.EMAIL_USER, // Your Gmail email
+    pass: process.env.EMAIL_PASS, // Your Google App Password
   },
 });
 
 // Signup
 exports.signup = async (req, res) => {
-  const { name, email, passwaord } = req.body;
+  const { name, email, password } = req.body; // Fixed typo (passwaord -> password)
   try {
     const existingUser = await User.findOne({ email });
     if (existingUser) return res.status(400).json({ success: false, message: "User already exists" });
@@ -64,13 +64,13 @@ exports.forgotPassword = async (req, res) => {
     user.resetTokenExpiration = Date.now() + 900000; // Token expires in 15 minutes
     await user.save();
 
-    const resetLink = https://frontend-rsli.onrender.com/reset-password/${resetToken};
+    const resetLink = `https://frontend-rsli.onrender.com/reset-password/${resetToken}`; // Fixed template literal
 
     await transporter.sendMail({
       from: process.env.EMAIL_USER,
       to: user.email,
       subject: "Password Reset Request",
-      html: <p>Click <a href="${resetLink}">here</a> to reset your password.</p>,
+      html: `<p>Click <a href="${resetLink}">here</a> to reset your password.</p>`, // Fixed HTML formatting
     });
 
     res.json({ success: true, message: "Password reset email sent!" });
