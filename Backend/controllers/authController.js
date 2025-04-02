@@ -2,23 +2,49 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const nodemailer = require("nodemailer");
+const express = require("express");
+const cors = require("cors");
 require("dotenv").config();
+
+const router = express.Router();
 
 // Nodemailer Transporter Setup
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: process.env.EMAIL_USER,  // Your Gmail email
-    pass: process.env.EMAIL_PASS,  // Your Google App Password
+    user: process.env.EMAIL_USER, // Your Gmail email
+    pass: process.env.EMAIL_PASS, // Your Google App Password
   },
 });
 
-// Signup
-exports.signup = async (req, res) => {
+// Define the allowed frontend origins
+const allowedOrigins = [
+  process.env.FRONTEND_URL || "http://localhost:3000",
+];
+
+// CORS options
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
+};
+
+// Apply CORS preflight handling for all routes
+router.options("*", cors(corsOptions));
+
+// 🚀 **Signup**
+router.post("/signup", cors(corsOptions), async (req, res) => {
   const { name, email, password } = req.body;
+
   try {
     const existingUser = await User.findOne({ email });
-    if (existingUser) return res.status(400).json({ success: false, message: "User already exists" });
+    if (existingUser)
+      return res.status(400).json({ success: false, message: "User already exists" });
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new User({ name, email, password: hashedPassword });
@@ -28,11 +54,12 @@ exports.signup = async (req, res) => {
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
-};
+});
 
-// Login
-exports.login = async (req, res) => {
+// 🔑 **Login**
+router.post("/login", cors(corsOptions), async (req, res) => {
   const { email, password } = req.body;
+
   try {
     const user = await User.findOne({ email });
     if (!user) return res.status(400).json({ success: false, message: "User not found" });
@@ -46,16 +73,15 @@ exports.login = async (req, res) => {
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
-};
+});
 
-// Forgot Password - Sends Reset Link
-exports.forgotPassword = async (req, res) => {
+// 📩 **Forgot Password - Sends Reset Link**
+router.post("/forgot-password", cors(corsOptions), async (req, res) => {
   const { email } = req.body;
+
   try {
     const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(400).json({ success: false, message: "User not found" });
-    }
+    if (!user) return res.status(400).json({ success: false, message: "User not found" });
 
     const resetToken = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: "15m" });
 
@@ -77,10 +103,10 @@ exports.forgotPassword = async (req, res) => {
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
-};
+});
 
-// Reset Password - Updates the User's Password
-exports.resetPassword = async (req, res) => {
+// 🔄 **Reset Password - Updates the User's Password**
+router.post("/reset-password/:token", cors(corsOptions), async (req, res) => {
   const { token } = req.params;
   const { newPassword } = req.body;
 
@@ -94,9 +120,7 @@ exports.resetPassword = async (req, res) => {
       resetTokenExpiration: { $gt: Date.now() }, // Check if token is not expired
     });
 
-    if (!user) {
-      return res.status(400).json({ success: false, message: "Invalid or expired token" });
-    }
+    if (!user) return res.status(400).json({ success: false, message: "Invalid or expired token" });
 
     // Hash new password
     user.password = await bcrypt.hash(newPassword, 10);
@@ -111,4 +135,6 @@ exports.resetPassword = async (req, res) => {
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
-};
+});
+
+module.exports = router;
