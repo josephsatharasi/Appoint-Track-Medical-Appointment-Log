@@ -19,7 +19,7 @@ const Login = () => {
 
     try {
       // Make the POST request to login
-      const response = await axios.post("http://localhost:5000/api/auth/login", { email, password });
+      const response = await axios.post("https://backend-ip1x.onrender.com/api/auth/login", { email, password });
 
       if (response.data.success) {
         toast.success("✅ Login successful!");
