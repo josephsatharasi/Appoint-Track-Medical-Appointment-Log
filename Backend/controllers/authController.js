@@ -64,7 +64,7 @@ exports.forgotPassword = async (req, res) => {
     user.resetTokenExpiration = Date.now() + 900000; // Token expires in 15 minutes
     await user.save();
 
-    const resetLink = ${process.env.FRONTEND_URL}/reset-password/${resetToken};
+    const resetLink = https://frontend-rsli.onrender.com/reset-password/${resetToken};
 
     await transporter.sendMail({
       from: process.env.EMAIL_USER,
