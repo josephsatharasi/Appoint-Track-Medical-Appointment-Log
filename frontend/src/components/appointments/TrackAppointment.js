@@ -3,6 +3,7 @@ import { fetchAppointments, deleteAppointment } from "../../api/appointmentApi";
 import AppointmentCard from "./AppointmentCard";
 import AppointmentModal from "./AppointmentModal";
 import NoAppointmentsWarning from "./NoAppointmentsWarning"; 
+import Loading from "../Loading";  
 import "../../styles/TrackAppointment.css";
 
 const TrackAppointment = () => {
@@ -12,12 +13,19 @@ const TrackAppointment = () => {
   const [statusFilter, setStatusFilter] = useState("");
   const [dateRange, setDateRange] = useState(null);
   const [sortOrder, setSortOrder] = useState("asc");
+  const [isLoading, setIsLoading] = useState(true);  
 
   useEffect(() => {
     const loadAppointments = async () => {
-      const data = await fetchAppointments();
-      // Ensure that data is an array before setting it
-      setAppointments(Array.isArray(data) ? data : []);
+      try {
+        setIsLoading(true);
+        const data = await fetchAppointments();
+        setAppointments(Array.isArray(data) ? data : []);
+      } catch (error) {
+        console.error("Error fetching appointments:", error);
+      } finally {
+        setIsLoading(false);
+      }
     };
     loadAppointments();
   }, []);
@@ -104,65 +112,72 @@ const TrackAppointment = () => {
     <div className="track-appointment-container">
       <h2>Track Your Appointments</h2>
 
-      {/* Conditionally render the NoAppointmentsWarning component */}
-      {appointments.length === 0 ? (
-        <NoAppointmentsWarning />
+      {/* Show Loading Spinner While Fetching Data */}
+      {isLoading ? (
+        <Loading />  
       ) : (
         <>
-          <div className="filters">
-            <StatusFilter />
-            <DateRangeFilter />
-            <SortFilter />
-            <button className="reset-btn" onClick={resetFilters}>
-              Reset Filters
-            </button>
-          </div>
+          {/* Conditionally render the NoAppointmentsWarning component */}
+          {appointments.length === 0 ? (
+            <NoAppointmentsWarning />
+          ) : (
+            <>
+              <div className="filters">
+                <StatusFilter />
+                <DateRangeFilter />
+                <SortFilter />
+                <button className="reset-btn" onClick={resetFilters}>
+                  Reset Filters
+                </button>
+              </div>
 
-          <AppointmentSummary />
+              <AppointmentSummary />
 
-          <table className="appointment-table">
-            <thead>
-              <tr>
-                <th>Doctor</th>
-                <th>Date</th>
-                <th>Time</th>
-                <th>Reason</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredAppointments.map((appointment) => (
-                <tr
-                  key={appointment._id}
-                  onClick={() => handleAppointmentClick(appointment)}
-                  className="appointment-row"
-                >
-                  <td>{appointment.doctor}</td>
-                  <td>{appointment.date}</td>
-                  <td>{appointment.time}</td>
-                  <td>{appointment.reason}</td>
-                  <td>{appointment.status}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+              <table className="appointment-table">
+                <thead>
+                  <tr>
+                    <th>Doctor</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Reason</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredAppointments.map((appointment) => (
+                    <tr
+                      key={appointment._id}
+                      onClick={() => handleAppointmentClick(appointment)}
+                      className="appointment-row"
+                    >
+                      <td>{appointment.doctor}</td>
+                      <td>{appointment.date}</td>
+                      <td>{appointment.time}</td>
+                      <td>{appointment.reason}</td>
+                      <td>{appointment.status}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </>
+          )}
+
+          {selectedAppointment && (
+            <AppointmentCard
+              appointment={selectedAppointment}
+              onClose={() => setSelectedAppointment(null)}
+              onDelete={handleDelete}
+              onEdit={handleEdit}
+            />
+          )}
+
+          {isModalOpen && (
+            <AppointmentModal
+              appointment={selectedAppointment}
+              closeModal={closeModal}
+            />
+          )}
         </>
-      )}
-
-      {selectedAppointment && (
-        <AppointmentCard
-          appointment={selectedAppointment}
-          onClose={() => setSelectedAppointment(null)}
-          onDelete={handleDelete}
-          onEdit={handleEdit}
-        />
-      )}
-
-      {isModalOpen && (
-        <AppointmentModal
-          appointment={selectedAppointment}
-          closeModal={closeModal}
-        />
       )}
     </div>
   );
