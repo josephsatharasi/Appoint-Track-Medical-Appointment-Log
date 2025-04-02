@@ -1,4 +1,4 @@
-// AppointmentCard.js
+
 import React from 'react';
 import "../../styles/AppointmentCard.css"; // Make sure to create the CSS for the card
 
