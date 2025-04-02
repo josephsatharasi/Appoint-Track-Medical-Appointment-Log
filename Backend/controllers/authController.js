@@ -15,7 +15,7 @@ const transporter = nodemailer.createTransport({
 
 // Signup
 exports.signup = async (req, res) => {
-  const { name, email, passwaord } = req.body;
+  const { name, email, password } = req.body; // Fix typo (passwaord -> password)
   try {
     const existingUser = await User.findOne({ email });
     if (existingUser) return res.status(400).json({ success: false, message: "User already exists" });
@@ -64,7 +64,7 @@ exports.forgotPassword = async (req, res) => {
     user.resetTokenExpiration = Date.now() + 900000; // Token expires in 15 minutes
     await user.save();
 
-    const resetLink = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
+    const resetLink = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`; // Updated for correct frontend URL
 
     await transporter.sendMail({
       from: process.env.EMAIL_USER,
