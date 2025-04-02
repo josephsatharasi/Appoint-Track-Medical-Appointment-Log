@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://localhost:5000/api/appointments";
+const API_BASE_URL = "https://backend-ip1x.onrender.com/api/appointments";
 
 // Helper function to get token from localStorage
 const getToken = () => localStorage.getItem('token'); // Retrieve the token from localStorage
