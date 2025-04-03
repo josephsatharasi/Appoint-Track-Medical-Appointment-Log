@@ -1,30 +1,16 @@
-import React, { useState } from "react";
-import "../styles/Contact.css";
+import React from "react"; import "../styles/Contact.css";
 
-const Contact = () => {
-  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    alert("Your message has been sent!");
-    setFormData({ name: "", email: "", message: "" });
-  };
-
-  return (
-    <div className="contact-container">
-      <h1>Contact Us</h1>
-      <form onSubmit={handleSubmit} className="contact-form">
-        <input type="text" name="name" placeholder="Your Name" value={formData.name} onChange={handleChange} required />
-        <input type="email" name="email" placeholder="Your Email" value={formData.email} onChange={handleChange} required />
-        <textarea name="message" placeholder="Your Message" value={formData.message} onChange={handleChange} required />
-        <button type="submit">Send Message</button>
-      </form>
-    </div>
+const Contact = () => 
+  { 
+    return ( 
+    <div className="contact-container"> <h1>Contact Us</h1> <p> We would love to hear from you! If you have any questions, suggestions, or need assistance, please reach out to us using the details below. </p> 
+    <div className="contact-details"> <p><strong>Email:</strong> support@appointtrack.com</p>
+    <p><strong>Phone:</strong> +1 (123) 456-7890</p> 
+    <p> <strong>Address:</strong> 123 Health Street, Wellness City, WC 56789</p> </div>
+    <p> Our team is available Monday to Friday, 9 AM - 5 PM. We look forward to assisting you! </p> </div> 
   );
 };
 
 export default Contact;
+
+
