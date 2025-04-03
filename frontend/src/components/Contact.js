@@ -7,7 +7,7 @@ const Contact = () =>
     <div className="contact-details"> <p><strong>Email:</strong> support@appointtrack.com</p>
     <p><strong>Phone:</strong> +1 (123) 456-7890</p> 
     <p> <strong>Address:</strong> 123 Health Street, Wellness City, WC 56789</p> </div>
-    <p> Our team is available Monday to Friday, 9 AM - 5 PM. We look forward to assisting you! </p> </div> 
+    <p> Our team is available Monday to Sunday, 9 AM - 5:30 PM. We look forward to assisting you! </p>
   );
 };
 
