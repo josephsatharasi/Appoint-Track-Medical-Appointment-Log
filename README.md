@@ -1,4 +1,4 @@
-##**AppointTrack - Medical Appointment Log**
+## **AppointTrack - Medical Appointment Log**
 
 
 AppointTrack is a full-stack web application that allows users to log, manage, and track their medical appointments. It provides a user-friendly interface for securely managing appointment records, with support for filtering, sorting, and status tracking.
