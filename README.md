@@ -46,7 +46,7 @@ Follow these steps to set up the application locally.
 ### 1. Clone the Repository
 
 ```bash
-git clone (https://github.com/josephsatharasi/Appoint-Track-Medical-Appointment-Log.git)
+git clone https://github.com/josephsatharasi/Appoint-Track-Medical-Appointment-Log.git
 ```
 
 ### 2. Install Dependencies
