@@ -1,4 +1,4 @@
-**AppointTrack - Medical Appointment Log**
+##**AppointTrack - Medical Appointment Log**
 
 
 AppointTrack is a full-stack web application that allows users to log, manage, and track their medical appointments. It provides a user-friendly interface for securely managing appointment records, with support for filtering, sorting, and status tracking.
@@ -47,8 +47,6 @@ Follow these steps to set up the application locally.
 
 ```bash
 git clone (https://github.com/josephsatharasi/Appoint-Track-Medical-Appointment-Log.git)
-cd frontend
-cd Backend
 ```
 
 ### 2. Install Dependencies
@@ -74,7 +72,7 @@ Create a `.env` file in both the frontend and backend directories:
 #### Frontend `.env`
 
 ```bash
-REACT_APP_API_URL=http://localhost:3000/api
+REACT_APP_API_URL=Enter_your_frontend_URL
 ```
 
 #### Backend `.env`
@@ -84,11 +82,11 @@ MONGO_URI=Enter_your_MONGODB_URL
 JWT_SECRET=your_secret_key
 EMAIL_USER=ENter_your_E-MAIL    
 EMAIL_PASS=Enter_your_Password
-FRONTEND_URL=Enter_your_frontend_URL
+FRONTEND_URL=
 PORT=Enter_Your_Port
 ```
 
-> Replace placeholders with your actual credentials.
+### Replace placeholders with your actual credentials.
 
 ---
 
