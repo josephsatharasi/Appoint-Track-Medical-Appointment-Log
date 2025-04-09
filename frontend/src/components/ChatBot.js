@@ -7,7 +7,6 @@ const ChatBot = () => {
   const [dragging, setDragging] = useState(false);
   const [position, setPosition] = useState({ x: 20, y: window.innerHeight - 140 });
   const [rel, setRel] = useState({ x: 0, y: 0 });
-  const [loading, setLoading] = useState(true);
   const wrapperRef = useRef(null);
 
   const predefinedAnswers = {
@@ -20,7 +19,7 @@ const ChatBot = () => {
 
   const toggleChat = () => {
     setIsOpen((prev) => {
-      if (prev) setMessages([]); // clear chat on close
+      if (prev) setMessages([]);
       return !prev;
     });
   };
@@ -61,19 +60,6 @@ const ChatBot = () => {
     };
   });
 
-  useEffect(() => {
-    const timeout = setTimeout(() => setLoading(false), 1000);
-    return () => clearTimeout(timeout);
-  }, []);
-
-  if (loading) {
-    return (
-      <div className="chatbot-loader">
-        <div className="loader-circle"></div>
-      </div>
-    );
-  }
-
   return (
     <div
       ref={wrapperRef}
@@ -83,6 +69,7 @@ const ChatBot = () => {
         position: "fixed",
         top: `${position.y}px`,
         left: `${position.x}px`,
+        zIndex: 9999,
       }}
     >
       <div className="chatbot-icon" onClick={toggleChat}>How can I help you?</div>
