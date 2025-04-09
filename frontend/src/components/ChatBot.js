@@ -4,17 +4,29 @@ import "../styles/ChatBot.css";
 const ChatBot = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([]);
-  const [position, setPosition] = useState({ x: 100, y: 100 });
   const [dragging, setDragging] = useState(false);
-  const [rel, setRel] = useState(null);
-  const wrapperRef = useRef();
+  const [position, setPosition] = useState({ x: 100, y: 100 });
+  const [rel, setRel] = useState({ x: 0, y: 0 });
+  const wrapperRef = useRef(null);
 
   const predefinedAnswers = {
-    "How can I book an appointment?": "To book an appointment, go to the 'Book Appointment' page and fill out the required information.",
-    "How do I track my appointments?": "Use the 'Track Appointment' page to see all your upcoming and past appointments.",
-    "Can I cancel an appointment?": "Yes, you can cancel your appointment from the 'Track Appointment' page.",
-    "What services do you offer?": "We offer expert medical diagnosis, personalized treatment plans, and online booking.",
-    "How do I reset my password?": "Click on 'Forgot Password' on the login page to receive reset instructions."
+    "How can I book an appointment?":
+      "To book an appointment, go to the 'Book Appointment' page and fill out the required information.",
+    "How do I track my appointments?":
+      "Use the 'Track Appointment' page to see all your upcoming and past appointments.",
+    "Can I cancel an appointment?":
+      "Yes, you can cancel your appointment from the 'Track Appointment' page.",
+    "What services do you offer?":
+      "We offer expert medical diagnosis, personalized treatment plans, and online booking.",
+    "How do I reset my password?":
+      "Click on 'Forgot Password' on the login page to receive reset instructions.",
+  };
+
+  const toggleChat = () => {
+    setIsOpen((prev) => {
+      if (prev) setMessages([]); // Reset chat on close
+      return !prev;
+    });
   };
 
   const handleQuickQuestionClick = (question) => {
@@ -24,28 +36,24 @@ const ChatBot = () => {
     }, 500);
   };
 
-  const toggleChat = () => {
-    if (isOpen) setMessages([]); // Clear messages on close
-    setIsOpen(!isOpen);
-  };
-
   const handleMouseDown = (e) => {
     if (e.button !== 0) return;
     const pos = wrapperRef.current.getBoundingClientRect();
     setDragging(true);
     setRel({ x: e.pageX - pos.left, y: e.pageY - pos.top });
-    e.stopPropagation();
+    e.preventDefault();
+  };
+
+  const handleMouseMove = (e) => {
+    if (!dragging) return;
+    setPosition({
+      x: e.pageX - rel.x,
+      y: e.pageY - rel.y,
+    });
     e.preventDefault();
   };
 
   const handleMouseUp = () => setDragging(false);
-
-  const handleMouseMove = (e) => {
-    if (!dragging) return;
-    setPosition({ x: e.pageX - rel.x, y: e.pageY - rel.y });
-    e.stopPropagation();
-    e.preventDefault();
-  };
 
   useEffect(() => {
     document.addEventListener("mousemove", handleMouseMove);
@@ -58,10 +66,10 @@ const ChatBot = () => {
 
   return (
     <div
-      className={`chatbot-wrapper ${dragging ? "dragging" : ""}`}
       ref={wrapperRef}
-      style={{ left: position.x, top: position.y }}
+      className={`chatbot-wrapper ${dragging ? "dragging" : ""}`}
       onMouseDown={handleMouseDown}
+      style={{ left: position.x, top: position.y }}
     >
       <div className="chatbot-icon" onClick={toggleChat}>
         How can I help you?
