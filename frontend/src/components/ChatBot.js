@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import "..styles/ChatBot.css";
+import "../styles/ChatBot.css";
 
 const predefinedQA = {
   "What is AppointTrack?": "AppointTrack is a medical appointment tracking app that helps you manage, book, and monitor your appointments easily.",
