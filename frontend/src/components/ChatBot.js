@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import "./ChatBot.css";
+import "../styles/ChatBot.css";
 
 const faq = [
   { question: "How do I book an appointment?", answer: "Go to the homepage and click on 'Book Appointment'." },
