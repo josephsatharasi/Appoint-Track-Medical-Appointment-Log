@@ -1,93 +1,45 @@
-import React, { useState, useRef, useEffect } from "react";
-import "../styles/ChatBot.css";
+import React, { useState, useEffect, useRef } from "react"; import "../styles/ChatBot.css";
 
-const predefinedQA = {
-  "What is AppointTrack?": "AppointTrack is a medical appointment tracking app that helps you manage, book, and monitor your appointments easily.",
-  "How to book an appointment?": "Login to your dashboard and click on 'Book Appointment' to schedule your visit.",
-  "Can I cancel an appointment?": "Yes, go to 'Track Appointments' and click on the appointment you want to cancel.",
-  "What if two appointments clash?": "You’ll be redirected to the 'Appointment Conflict Page' to reschedule.",
-  "Do I get reminders?": "Yes, AppointTrack provides upcoming appointment summaries and status filters.",
-};
+const ChatBot = () => { const [isOpen, setIsOpen] = useState(false); const [messages, setMessages] = useState([]); const [position, setPosition] = useState({ x: 100, y: 100 }); const [dragging, setDragging] = useState(false); const [rel, setRel] = useState(null); const wrapperRef = useRef();
 
-const ChatBot = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState([]);
-  const [isDragging, setIsDragging] = useState(false);
-  const [position, setPosition] = useState({ top: "70%", left: "80%" });
-  const chatRef = useRef();
+const predefinedAnswers = { "How can I book an appointment?": "To book an appointment, go to the 'Book Appointment' page and fill out the required information.", "How do I track my appointments?": "Use the 'Track Appointment' page to see all your upcoming and past appointments.", "Can I cancel an appointment?": "Yes, you can cancel your appointment from the 'Track Appointment' page.", "What services do you offer?": "We offer expert medical diagnosis, personalized treatment plans, and online booking.", "How do I reset my password?": "Click on 'Forgot Password' on the login page to receive reset instructions." };
 
-  const toggleChat = () => setIsOpen(!isOpen);
+const handleQuickQuestionClick = (question) => { setMessages((prev) => [...prev, { from: "user", text: question }]); setTimeout(() => { setMessages((prev) => [...prev, { from: "bot", text: predefinedAnswers[question] }]); }, 500); };
 
-  const handleDragStart = (e) => {
-    setIsDragging(true);
-    chatRef.current.startX = e.clientX;
-    chatRef.current.startY = e.clientY;
-  };
+const toggleChat = () => setIsOpen(!isOpen);
 
-  const handleDrag = (e) => {
-    if (!isDragging) return;
-    const dx = e.clientX - chatRef.current.startX;
-    const dy = e.clientY - chatRef.current.startY;
-    setPosition((prev) => ({
-      top: `${parseInt(prev.top) + dy}px`,
-      left: `${parseInt(prev.left) + dx}px`,
-    }));
-    chatRef.current.startX = e.clientX;
-    chatRef.current.startY = e.clientY;
-  };
+const handleMouseDown = (e) => { if (e.button !== 0) return; const pos = wrapperRef.current.getBoundingClientRect(); setDragging(true); setRel({ x: e.pageX - pos.left, y: e.pageY - pos.top }); e.stopPropagation(); e.preventDefault(); };
 
-  const handleDragEnd = () => setIsDragging(false);
+const handleMouseUp = () => setDragging(false); const handleMouseMove = (e) => { if (!dragging) return; setPosition({ x: e.pageX - rel.x, y: e.pageY - rel.y }); e.stopPropagation(); e.preventDefault(); };
 
-  const handleQuestionClick = (question) => {
-    setMessages((prev) => [...prev, { sender: "user", text: question }]);
-    setTimeout(() => {
-      setMessages((prev) => [
-        ...prev,
-        { sender: "bot", text: predefinedQA[question] || "I'm not sure about that." },
-      ]);
-    }, 500);
-  };
+useEffect(() => { document.addEventListener("mousemove", handleMouseMove); document.addEventListener("mouseup", handleMouseUp); return () => { document.removeEventListener("mousemove", handleMouseMove); document.removeEventListener("mouseup", handleMouseUp); }; });
 
-  useEffect(() => {
-    if (isOpen) {
-      setMessages([{ sender: "bot", text: "Hi! How can I help you today?" }]);
-    }
-  }, [isOpen]);
+return ( <div className="chatbot-wrapper" ref={wrapperRef} style={{ left: position.x, top: position.y }} onMouseDown={handleMouseDown} > <div className="chatbot-icon" onClick={toggleChat}> How can I help you? </div>
 
-  return (
-    <div
-      className="chatbot-wrapper"
-      style={{ top: position.top, left: position.left }}
-      ref={chatRef}
-      onMouseDown={handleDragStart}
-      onMouseMove={handleDrag}
-      onMouseUp={handleDragEnd}
-    >
-      <div className="chatbot-icon" onClick={toggleChat}>
-        {isOpen ? "×" : "How can I help you?"}
+{isOpen && (
+    <div className="chatbot-box">
+      <div className="chat-messages">
+        {messages.map((msg, index) => (
+          <div
+            key={index}
+            className={`chat-bubble ${msg.from === "user" ? "user" : "bot"}`}
+          >
+            {msg.text}
+          </div>
+        ))}
       </div>
-
-      {isOpen && (
-        <div className="chatbot-box">
-          <div className="chat-messages">
-            {messages.map((msg, i) => (
-              <div key={i} className={`chat-bubble ${msg.sender}`}>
-                {msg.text}
-              </div>
-            ))}
-          </div>
-
-          <div className="quick-questions">
-            {Object.keys(predefinedQA).map((q, i) => (
-              <button key={i} onClick={() => handleQuestionClick(q)}>
-                {q}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
+      <div className="quick-questions">
+        {Object.keys(predefinedAnswers).map((question, index) => (
+          <button key={index} onClick={() => handleQuickQuestionClick(question)}>
+            {question}
+          </button>
+        ))}
+      </div>
     </div>
-  );
-};
+  )}
+</div>
+
+); };
 
 export default ChatBot;
+
