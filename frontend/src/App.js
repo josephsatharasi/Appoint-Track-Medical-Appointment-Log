@@ -6,7 +6,7 @@ import "./styles/styles.css";
 
 // Import Components
 import Loading from "./components/Loading";
-import ChatBot from "./components/ChatBot/ChatBot"; // ✅ Added ChatBot
+import ChatBot from "./components/ChatBot"; // ✅ Added ChatBot
 
 // Lazy Load Components
 const Navbar = lazy(() => import("./components/Navbar"));
