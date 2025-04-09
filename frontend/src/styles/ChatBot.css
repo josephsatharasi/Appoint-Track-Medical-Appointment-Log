@@ -1,8 +1,12 @@
 .chatbot-wrapper {
   position: fixed;
   z-index: 9999;
-  cursor: move;
+  cursor: grab;
   user-select: none;
+}
+
+.chatbot-wrapper.dragging {
+  cursor: grabbing;
 }
 
 .chatbot-icon {
@@ -18,13 +22,14 @@
 .chatbot-box {
   width: 300px;
   max-height: 400px;
-  background: #fff;
+  background: #ffffffdd;
   border-radius: 12px;
   margin-top: 10px;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  backdrop-filter: blur(5px);
 }
 
 .chat-messages {
@@ -40,16 +45,22 @@
   padding: 10px;
   border-radius: 10px;
   max-width: 80%;
+  font-size: 14px;
+  line-height: 1.4;
+  word-break: break-word;
 }
 
 .chat-bubble.user {
-  background-color: #dcf8c6;
+  background-color: #007bff;  /* Blue bubble for user */
+  color: white;
   align-self: flex-end;
 }
 
 .chat-bubble.bot {
-  background-color: #f1f0f0;
+  background-color: white;    /* White bubble for bot */
+  color: black;
   align-self: flex-start;
+  border: 1px solid #ccc;
 }
 
 .quick-questions {
@@ -60,16 +71,19 @@
 }
 
 .quick-questions button {
-  background: #eee;
+  background: #007bff;         /* Blue buttons */
+  color: white;
   border: none;
   padding: 8px;
   border-radius: 5px;
   cursor: pointer;
   text-align: left;
+  transition: background 0.3s ease;
+  font-weight: 500;
 }
 
 .quick-questions button:hover {
-  background-color: #ddd;
+  background-color: #0056b3;   /* Darker blue on hover */
 }
 
 @media screen and (max-width: 600px) {
